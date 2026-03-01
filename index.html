@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESTAS - Art & Science Festival</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #f5f1e8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px 40px;
+        }
+
+        .header {
+            text-align: center;
+            animation: slideDown 1s ease-out;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #4fa3a3;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(79, 163, 163, 0.3);
+        }
+
+        .logo {
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 30px auto;
+            animation: fadeIn 1.2s ease-out;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .center-logo-section a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #ff9999;
+            text-transform: uppercase;
+            font-weight: normal;
+            font-family: 'Courier New', monospace;
+            margin-top: 8px;
+        }
+
+        .center-logo-section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+            pointer-events: auto;
+        }
+
+        .event-name {
+			font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #4fa3a3;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            text-shadow: 0 0 20px rgba(79, 163, 163, 0.3);
+        }
+		
+		.event-details {
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            color: #4fa3a3;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .center-instruction {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #4fa3a3;
+            text-transform: uppercase;
+            opacity: 0.9;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            animation: fadeIn 1.5s ease-out;
+            pointer-events: none;
+        }
+
+        .footer {
+            text-align: center;
+            animation: slideUp 1s ease-out;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #ff9999;
+            font-family: 'Courier New', monospace;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+        }
+
+        .legend-link {
+            color: #ff9999;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #ff9999;
+            pointer-events: all;
+            font-family: 'Courier New', monospace;
+        }
+
+        .legend-link:hover {
+            color: #4fa3a3;
+            border-bottom-color: #4fa3a3;
+            text-shadow: 0 0 10px rgba(79, 163, 163, 0.5);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        
+        <div class="overlay">
+            <div class="header">
+                <h1 class="title"> FESTAS 2026</h1>
+                <p class="subtitle">//
+				<a class="legend-link" href="about-us.html">Art & Science Festival</a>
+				//</p>
+            </div>
+
+            <div class="center-logo-section">
+                <a href="index_black.html">
+                    <img src="Logo_FESTAS.png" alt="FESTAS Logo" class="logo">
+                </a>
+                <div class="event-name">
+                    NEXUS
+                </div>
+                <div class="event-details">
+				22-26 June 2026, Napoli (Italy)
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="center-instruction">[click & drag to create forms]</p>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="event1.html" target="_blank">event1</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #ff9999; border-color: #ff9999;"></div>
+                        <a class="legend-link" href="event2.html" target="_blank">event2</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="event3.html" target="_blank">event3</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #ff9999; border-color: #ff9999;"></div>
+                        <a class="legend-link" href="event4.html" target="_blank">event4</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="event5.html" target="_blank">event5</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Color palette - teal and coral
+        const colors = [
+            '#4fa3a3',  // Teal
+            '#ff9999',  // Coral
+        ];
+
+        // Particle system
+        class Particle {
+            constructor(x, y, vx, vy, color, size, life) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.color = color;
+                this.size = size;
+                this.maxLife = life;
+                this.life = life;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationVel = (Math.random() - 0.5) * 0.1;
+                this.friction = 0.98;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += 0.15; // gravity
+                this.life--;
+                this.rotation += this.rotationVel;
+            }
+
+            draw(ctx) {
+                // Particles stay fully opaque for 70% of their life, then fade out
+                const fadeStart = this.maxLife * 0.7;
+                let alpha = 1;
+                if (this.life < fadeStart) {
+                    alpha = 1; // Stay opaque
+                } else {
+                    alpha = (this.life - fadeStart) / (this.maxLife - fadeStart); // Fade out
+                }
+                
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                
+                // Draw organic blob shapes
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i / 6) * Math.PI * 2;
+                    const r = this.size + Math.sin(i) * this.size * 0.3;
+                    const px = Math.cos(angle) * r;
+                    const py = Math.sin(angle) * r;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        class Attractor {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = 0;
+                this.maxRadius = 40;
+                this.life = 0;
+                this.maxLife = 30;
+            }
+
+            update() {
+                this.life++;
+                if (this.life < this.maxLife * 0.3) {
+                    this.radius = (this.life / (this.maxLife * 0.3)) * this.maxRadius;
+                } else if (this.life < this.maxLife * 0.7) {
+                    this.radius = this.maxRadius;
+                } else {
+                    this.radius = Math.max(0, this.maxRadius * (1 - (this.life - this.maxLife * 0.7) / (this.maxLife * 0.3)));
+                }
+            }
+
+            draw(ctx) {
+                // Attractors stay visible for most of their life, then fade quickly
+                const fadeStart = this.maxLife * 0.6;
+                let alpha = 1 - (this.life / this.maxLife);
+                if (this.life > fadeStart) {
+                    alpha = 1 - ((this.life - fadeStart) / (this.maxLife - fadeStart));
+                } else {
+                    alpha = 1;
+                }
+                
+                if (this.radius > 0) {  // Only draw if radius is positive
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 2;
+                    ctx.globalAlpha = alpha * 0.6;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            isAlive() {
+                return this.life < this.maxLife;
+            }
+
+            emit() {
+                const particles = [];
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i / 8) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+                    const speed = 2 + Math.random() * 3;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    const size = 4 + Math.random() * 6;
+                    const life = 100 + Math.random() * 60;  // Increased from 40-80 to 100-160
+                    particles.push(new Particle(this.x, this.y, vx, vy, this.color, size, life));
+                }
+                return particles;
+            }
+        }
+
+        let particles = [];
+        let attractors = [];
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        let isMousePressed = false;
+        let lastEmitX = mouseX;
+        let lastEmitY = mouseY;
+        let currentColor = colors[0];
+
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Generate ambient trail only when mouse button is pressed
+            if (isMousePressed) {
+                const distance = Math.hypot(mouseX - lastEmitX, mouseY - lastEmitY);
+                
+                // Only emit if mouse has moved a minimum distance
+                if (distance > 15) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 0.5 + Math.random() * 1.5;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    const size = 2 + Math.random() * 4;
+                    const life = 120 + Math.random() * 80;
+                    particles.push(new Particle(mouseX, mouseY, vx, vy, currentColor, size, life));
+                    
+                    lastEmitX = mouseX;
+                    lastEmitY = mouseY;
+                }
+            }
+        });
+
+        // Mouse down - start emission
+        document.addEventListener('mousedown', (e) => {
+            isMousePressed = true;
+            currentColor = colors[Math.floor(Math.random() * colors.length)];
+            lastEmitX = e.clientX;
+            lastEmitY = e.clientY;
+        });
+
+        // Mouse up - stop emission and create burst
+        document.addEventListener('mouseup', (e) => {
+            // Create a burst at the release point
+            const color = currentColor;
+            const attractor = new Attractor(e.clientX, e.clientY, color);
+            attractors.push(attractor);
+            particles.push(...attractor.emit());
+            
+            isMousePressed = false;
+        });
+
+        // Touch support
+        document.addEventListener('touchstart', (e) => {
+            isMousePressed = true;
+            currentColor = colors[Math.floor(Math.random() * colors.length)];
+            lastEmitX = e.touches[0].clientX;
+            lastEmitY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+
+            if (isMousePressed) {
+                const distance = Math.hypot(mouseX - lastEmitX, mouseY - lastEmitY);
+                
+                if (distance > 15) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 0.5 + Math.random() * 1.5;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    const size = 2 + Math.random() * 4;
+                    const life = 120 + Math.random() * 80;
+                    particles.push(new Particle(mouseX, mouseY, vx, vy, currentColor, size, life));
+                    
+                    lastEmitX = mouseX;
+                    lastEmitY = mouseY;
+                }
+            }
+        });
+
+        document.addEventListener('touchend', (e) => {
+            // Create a burst at the end point
+            const color = currentColor;
+            const attractor = new Attractor(mouseX, mouseY, color);
+            attractors.push(attractor);
+            particles.push(...attractor.emit());
+            
+            isMousePressed = false;
+        });
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#f5f1e8';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw(ctx);
+            });
+
+            // Update and draw attractors
+            ctx.globalAlpha = 1;
+            attractors = attractors.filter(a => a.isAlive());
+            attractors.forEach(a => {
+                a.update();
+                a.draw(ctx);
+            });
+
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

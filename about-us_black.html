@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - FESTAS 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overlay {
+            position: relative;
+            width: 100%;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 40px;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            animation: slideDown 1s ease-out;
+            margin-bottom: 40px;
+            pointer-events: all;
+            position: sticky;
+            top: 0;
+            background: #0a0a0a;
+            padding: 20px 0;
+            z-index: 20;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #4fa3a3;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(79, 163, 163, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: all;
+        }
+
+        .title:hover {
+            color: #ff9999;
+            text-shadow: 0 0 20px rgba(255, 153, 153, 0.5);
+        }
+
+        .title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            color: #ff9999;
+            text-transform: uppercase;
+            font-weight: normal;
+            font-family: 'Courier New', monospace;
+            margin-top: 8px;
+        }
+
+        .content-area {
+            max-width: 800px;
+            margin: 0 auto;
+            flex-grow: 1;
+            pointer-events: all;
+            position: relative;
+            width: 100%;
+        }
+
+        .click-points-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+            align-items: start;
+            background: #0a0a0a;
+            padding: 40px 0;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .click-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .click-point-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(79, 163, 163, 0.15);
+            user-select: none;
+            overflow: hidden;
+            border: 3px solid #4fa3a3;
+        }
+
+        .click-point-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .click-point-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 48px rgba(79, 163, 163, 0.35);
+        }
+
+        .click-point-circle:hover img {
+            transform: scale(1.05);
+        }
+
+        .click-point-circle.active {
+            border-color: #ff9999;
+            box-shadow: 0 12px 48px rgba(255, 153, 153, 0.35);
+        }
+
+        .click-point-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4fa3a3;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .click-point-circle.active ~ .click-point-label {
+            color: #ff9999;
+        }
+
+        .content-boxes {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            margin-top: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-box {
+            animation: fadeIn 0.6s ease-out;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(79, 163, 163, 0.15);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .content-box.active {
+            display: block;
+        }
+
+        .content-box:hover {
+            box-shadow: 0 12px 48px rgba(79, 163, 163, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .box-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #4fa3a3 0%, #5bb5b5 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .box-content {
+            padding: 30px;
+            color: #333333;
+            font-size: 1rem;
+            line-height: 1.9;
+            letter-spacing: 0.5px;
+            text-align: justify;
+        }
+
+        .box-content p {
+            margin-bottom: 18px;
+        }
+
+        .box-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .box-content a {
+            color: #4fa3a3;
+            text-decoration: none;
+            border-bottom: 2px solid #4fa3a3;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .box-content a:hover {
+            color: #ff9999;
+            border-bottom-color: #ff9999;
+        }
+
+        .name-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .name-list li {
+            margin-bottom: 12px;
+            list-style-type: disc;
+        }
+
+        .name-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            animation: slideUp 1s ease-out;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(79, 163, 163, 0.2);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #ff9999;
+            font-family: 'Courier New', monospace;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+        }
+
+        .legend-link {
+            color: #ff9999;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #ff9999;
+            pointer-events: all;
+            font-family: 'Courier New', monospace;
+        }
+
+        .legend-link:hover {
+            color: #4fa3a3;
+            border-bottom-color: #4fa3a3;
+            text-shadow: 0 0 10px rgba(79, 163, 163, 0.5);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4fa3a3;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff9999;
+        }
+
+        @media (max-width: 768px) {
+            .click-points-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="overlay">
+            <div class="header">
+                <h1 class="title">
+                    <a href="index_black.html">FESTAS 2026</a>
+                </h1>
+                <p class="subtitle">About Us</p>
+            </div>
+
+            <div class="content-area">
+                <div class="click-points-container">
+                    <!-- Click Point 1: What is NEXUS -->
+                    <div class="click-point">
+                        <div class="click-point-circle" onclick="showContent(0)" id="cp1">
+                            <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                        </div>
+                        <div class="click-point-label">NEXUS</div>
+                    </div>
+
+                    <!-- Click Point 2: Horizon Europe -->
+                    <div class="click-point">
+                        <div class="click-point-circle" onclick="showContent(1)" id="cp2">
+                            <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                        </div>
+                        <div class="click-point-label">The HuT</div>
+                    </div>
+
+                    <!-- Click Point 3: People -->
+                    <div class="click-point">
+                        <div class="click-point-circle" onclick="showContent(2)" id="cp3">
+                            <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                        </div>
+                        <div class="click-point-label">People</div>
+                    </div>
+
+                    <!-- Click Point 4: Partners -->
+                    <div class="click-point">
+                        <div class="click-point-circle" onclick="showContent(3)" id="cp4">
+                            <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                        </div>
+                        <div class="click-point-label">Partners</div>
+                    </div>
+                </div>
+
+                <div class="content-boxes">
+                    <!-- Box 1: What is NEXUS -->
+                    <div class="content-box" id="box0">
+                        <div class="box-header">NEXUS</div>
+                        <div class="box-content">
+                            <p>"NEXUS" is the title of the first edition of the FESTAS art and science festival, which will be held from June 22nd to 26th, 2026, in the historic center of Naples. NEXUS represents the connections, ties, relationships, and intersections between themes and disciplines, between sensory and cerebral experiences, between emotions and knowledge, between people, across time and space.</p>
+
+                            <p>NEXUS is a journey to the places where art and science collide, an exploration without a map, without a predetermined itinerary, guided by five key words: Nature, Environment, 21st Century, Humanity, Society. A skewed acrostic that will inspire artists and scientists in their productions and engage spectators.</p>
+
+                            <p>NEXUS is the first experiment of FESTAS, a series of events that examines the complexity of the world we live in, and the world that awaits us, from multiple perspectives, exploring the connections between human activities and the environment, between nature and society, without facile simplifications, with awareness, and with emotion.</p>
+
+                            <p>FESTAS aims to stimulate active and informed citizen participation through the exploration and valorization of the expressive potential of art to address complex and socially relevant scientific issues. This first edition of the festival will feature a small number of artistic productions, in various locations around the city, each with its own aesthetic and scientific value (a theatrical performance, a contemporary art installation, a photography exhibition, an audiovisual performance, an artistic workshop, a debate), aiming to spark the interest of a diverse audience, including the local artistic and collecting communities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Box 2: Horizon Europe -->
+                    <div class="content-box" id="box1">
+                        <div class="box-header">The HuT</div>
+                        <div class="box-content">
+                            <p>The first edition of FESTAS will coincide with the final assembly of the European project The HuT – The Human-Tech Nexus (<a href="https://thehut-nexus.eu/" target="_blank">https://thehut-nexus.eu/</a>), funded by Horizon Europe and coordinated by the University of Salerno. The forty-eight-month project is exploring the relationship between governance, human behavior, and technology in managing weather-induced risks, amidst a growing climate emergency. FESTAS aims to evolve, in festival form, activities at the intersection of science and art that have already developed within The HuT project.</p>
+                        </div>
+                    </div>
+
+                    <!-- Box 3: People -->
+                    <div class="content-box" id="box2">
+                        <div class="box-header">People</div>
+                        <div class="box-content">
+                            <ul class="name-list">
+                                <li>Dr. Marco Rossi</li>
+                                <li>Elena Bianchi</li>
+                                <li>Prof. Antonio Verdi</li>
+                                <li>Sophie Moreau</li>
+                                <li>Dr. Giovanni Ferrari</li>
+                                <li>Laura Russo</li>
+                                <li>Prof. Michael Schmidt</li>
+                                <li>Alessandra Gallo</li>
+                                <li>Dr. Philippe Dubois</li>
+                                <li>Francesca Lombardi</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Box 4: Partners -->
+                    <div class="content-box" id="box3">
+                        <div class="box-header">Partners</div>
+                        <div class="box-content">
+                            <ul class="name-list">
+                                <li>University of Salerno</li>
+                                <li>Naples Contemporary Art Museum</li>
+                                <li>European Science Foundation</li>
+                                <li>Campania Regional Authority</li>
+                                <li>Institute of Advanced Studies</li>
+                                <li>International Art Collective</li>
+                                <li>Tech Innovation Hub</li>
+                                <li>Mediterranean Cultural Association</li>
+                                <li>Social Inclusion Network</li>
+                                <li>Environmental Research Institute</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="https://festas2026.wordpress.com/evento1/" target="_blank">evento1</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #ff9999; border-color: #ff9999;"></div>
+                        <a class="legend-link" href="https://festas2026.wordpress.com/evento2/" target="_blank">evento2</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="https://festas2026.wordpress.com/evento3/" target="_blank">evento3</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #ff9999; border-color: #ff9999;"></div>
+                        <a class="legend-link" href="https://festas2026.wordpress.com/evento4/" target="_blank">evento4</a>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #4fa3a3; border-color: #4fa3a3;"></div>
+                        <a class="legend-link" href="https://festas2026.wordpress.com/evento5/" target="_blank">evento5</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContent(index) {
+            // Hide all boxes
+            document.querySelectorAll('.content-box').forEach(box => {
+                box.classList.remove('active');
+            });
+            
+            // Remove active state from all circles
+            document.querySelectorAll('.click-point-circle').forEach(circle => {
+                circle.classList.remove('active');
+            });
+            
+            // Show selected box
+            const selectedBox = document.getElementById('box' + index);
+            selectedBox.classList.add('active');
+            
+            // Activate clicked circle
+            document.getElementById('cp' + (index + 1)).classList.add('active');
+            
+            // Scroll with offset to account for sticky circles
+            setTimeout(() => {
+                const boxTop = selectedBox.getBoundingClientRect().top + window.scrollY;
+                const offset = 150; // Height of sticky circles area
+                window.scrollTo({
+                    top: boxTop - offset,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
