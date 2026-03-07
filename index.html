@@ -90,6 +90,10 @@
             margin-top: 8px;
         }
 
+        .subtitle-mobile {
+            display: none;
+        }
+
         .center-logo-section {
             position: absolute;
             top: 50%;
@@ -226,6 +230,18 @@
             .legend-item {
                 font-size: 0.75rem;
             }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .subtitle-desktop {
+                display: none;
+            }
+
+            .subtitle-mobile {
+                display: inline;
+            }
         }
     </style>
 </head>
@@ -246,9 +262,9 @@
                 <div class="event-name">
                     NEXUS
                 </div>
-                <p class="subtitle">//
+                <p class="subtitle"><span class="subtitle-desktop">//
 				<a class="legend-link" href="about-us.html">Art & Science Festival</a>
-				//</p>
+				//</span><span class="subtitle-mobile"><a class="legend-link" href="about-us.html">Art & Science Festival</a></span></p>
             </div>
 
             <div class="footer">
