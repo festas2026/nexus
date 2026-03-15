@@ -21,7 +21,7 @@
 
         .container {
             width: 100%;
-            min-height: 100%;
+            min-height: 100vh;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -94,10 +94,6 @@
             font-weight: normal;
             font-family: 'Courier New', monospace;
             margin-top: 8px;
-        }
-
-        .subtitle-mobile {
-            display: none;
         }
 
         .center-logo-section {
@@ -267,14 +263,6 @@
             .subtitle {
                 /* keep desktop size */
             }
-
-            .subtitle-desktop {
-                display: none;
-            }
-
-            .subtitle-mobile {
-                display: inline;
-            }
         }
     </style>
 </head>
@@ -319,9 +307,7 @@
             </div>
 
             <div class="footer" style="margin-top: auto;">
-                <p class="subtitle"><span class="subtitle-desktop">//
-				<a class="legend-link" href="about-us_it.html">Festival di Arte & Scienza</a>
-				//</span><span class="subtitle-mobile"><a class="legend-link" href="about-us_it.html">Festival di Arte & Scienza</a></span></p>
+                <p class="subtitle"><a class="legend-link" href="about-us_it.html">Festival di Arte & Scienza</a></p>
             </div>
         </div>
     </div>
@@ -371,21 +357,14 @@
             }
 
             draw(ctx) {
-                // Particles stay fully opaque for 70% of their life, then fade out
                 const fadeStart = this.maxLife * 0.7;
-                let alpha = 1;
-                if (this.life < fadeStart) {
-                    alpha = 1; // Stay opaque
-                } else {
-                    alpha = (this.life - fadeStart) / (this.maxLife - fadeStart); // Fade out
-                }
+                const alpha = this.life < fadeStart ? 1 : (this.life - fadeStart) / (this.maxLife - fadeStart);
                 
                 ctx.save();
                 ctx.globalAlpha = alpha;
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation);
                 
-                // Draw organic blob shapes
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 for (let i = 0; i < 6; i++) {
@@ -426,16 +405,10 @@
             }
 
             draw(ctx) {
-                // Attractors stay visible for most of their life, then fade quickly
                 const fadeStart = this.maxLife * 0.6;
-                let alpha = 1 - (this.life / this.maxLife);
-                if (this.life > fadeStart) {
-                    alpha = 1 - ((this.life - fadeStart) / (this.maxLife - fadeStart));
-                } else {
-                    alpha = 1;
-                }
+                const alpha = this.life > fadeStart ? 1 - ((this.life - fadeStart) / (this.maxLife - fadeStart)) : 1;
                 
-                if (this.radius > 0) {  // Only draw if radius is positive
+                if (this.radius > 0) {
                     ctx.strokeStyle = this.color;
                     ctx.lineWidth = 2;
                     ctx.globalAlpha = alpha * 0.6;
@@ -473,28 +446,28 @@
         let lastEmitY = mouseY;
         let currentColor = colors[0];
 
+        // Helper function for particle emission
+        function emitTrail(x, y, color) {
+            const distance = Math.hypot(x - lastEmitX, y - lastEmitY);
+            if (distance > 15) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 0.5 + Math.random() * 1.5;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                const size = 2 + Math.random() * 4;
+                const life = 120 + Math.random() * 80;
+                particles.push(new Particle(x, y, vx, vy, color, size, life));
+                lastEmitX = x;
+                lastEmitY = y;
+            }
+        }
+
         // Mouse tracking
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-
-            // Generate ambient trail only when mouse button is pressed
             if (isMousePressed) {
-                const distance = Math.hypot(mouseX - lastEmitX, mouseY - lastEmitY);
-                
-                // Only emit if mouse has moved a minimum distance
-                if (distance > 15) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 0.5 + Math.random() * 1.5;
-                    const vx = Math.cos(angle) * speed;
-                    const vy = Math.sin(angle) * speed;
-                    const size = 2 + Math.random() * 4;
-                    const life = 120 + Math.random() * 80;
-                    particles.push(new Particle(mouseX, mouseY, vx, vy, currentColor, size, life));
-                    
-                    lastEmitX = mouseX;
-                    lastEmitY = mouseY;
-                }
+                emitTrail(mouseX, mouseY, currentColor);
             }
         });
 
@@ -508,12 +481,9 @@
 
         // Mouse up - stop emission and create burst
         document.addEventListener('mouseup', (e) => {
-            // Create a burst at the release point
-            const color = currentColor;
-            const attractor = new Attractor(e.clientX, e.clientY, color);
+            const attractor = new Attractor(e.clientX, e.clientY, currentColor);
             attractors.push(attractor);
             particles.push(...attractor.emit());
-            
             isMousePressed = false;
         });
 
@@ -528,32 +498,15 @@
         document.addEventListener('touchmove', (e) => {
             mouseX = e.touches[0].clientX;
             mouseY = e.touches[0].clientY;
-
             if (isMousePressed) {
-                const distance = Math.hypot(mouseX - lastEmitX, mouseY - lastEmitY);
-                
-                if (distance > 15) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 0.5 + Math.random() * 1.5;
-                    const vx = Math.cos(angle) * speed;
-                    const vy = Math.sin(angle) * speed;
-                    const size = 2 + Math.random() * 4;
-                    const life = 120 + Math.random() * 80;
-                    particles.push(new Particle(mouseX, mouseY, vx, vy, currentColor, size, life));
-                    
-                    lastEmitX = mouseX;
-                    lastEmitY = mouseY;
-                }
+                emitTrail(mouseX, mouseY, currentColor);
             }
         });
 
         document.addEventListener('touchend', (e) => {
-            // Create a burst at the end point
-            const color = currentColor;
-            const attractor = new Attractor(mouseX, mouseY, color);
+            const attractor = new Attractor(mouseX, mouseY, currentColor);
             attractors.push(attractor);
             particles.push(...attractor.emit());
-            
             isMousePressed = false;
         });
 
@@ -578,7 +531,6 @@
                 a.draw(ctx);
             });
 
-            ctx.globalAlpha = 1;
             requestAnimationFrame(animate);
         }
 
