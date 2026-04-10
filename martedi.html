@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESTAS: martedì 22 giugno 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overlay {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 40px;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            animation: slideDown 1s ease-out;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            background: #0a0a0a;
+            padding: 20px 0;
+            z-index: 20;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #5BA3D0;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(91, 163, 208, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .title:hover {
+            color: #FF8C42;
+            text-shadow: 0 0 20px rgba(255, 140, 66, 0.7);
+        }
+
+        .title a {
+            text-decoration: underline;
+            color: inherit;
+        }
+
+        .content-area {
+            max-width: 800px;
+            margin: 0 auto;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .event-info-box {
+            padding: 25px 0;
+            margin-bottom: 15px;
+            text-align: center;
+            animation: slideDown 1s ease-out;
+        }
+
+        .event-date {
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #FF8C42;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .event-time {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: #FF8C42;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .click-points-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+            align-items: center;
+            justify-items: center;
+            background: #0a0a0a;
+            padding: 40px 0;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .click-points-container.two-columns {
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 600px;
+        }
+
+        .click-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .click-point-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(91, 163, 208, 0.25);
+            user-select: none;
+            overflow: hidden;
+            border: 3px solid #5BA3D0;
+        }
+
+        .click-point-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .click-point-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 48px rgba(91, 163, 208, 0.5);
+        }
+
+        .click-point-circle:hover img {
+            transform: scale(1.05);
+        }
+
+        .click-point-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #5BA3D0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .intro-title {
+            text-align: center;
+            margin: 15px 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .intro-title .title-line1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #5BA3D0;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .intro-title .title-line2 {
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: #5BA3D0;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .intro-text {
+            background: rgba(91, 163, 208, 0.1);
+            border-left: 4px solid #5BA3D0;
+            border-right: 4px solid #5BA3D0;
+            padding: 30px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .intro-text p {
+            color: #e0e0e0;
+            font-size: 1rem;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .location-link {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .location-link a {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: #FF8C42;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-bottom: 2px solid #FF8C42;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .location-link a:hover {
+            color: #5BA3D0;
+            border-bottom-color: #5BA3D0;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #5BA3D0;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF8C42;
+        }
+
+        @media (max-width: 768px) {
+            .overlay {
+                padding: 40px 20px;
+            }
+
+            .header {
+                margin-bottom: 5px;
+                padding: 15px 0;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .event-info-box {
+                padding: 15px 0;
+                margin-bottom: 15px;
+            }
+
+            .event-date {
+                font-size: 1.1rem;
+                margin-bottom: 8px;
+            }
+
+            .event-time {
+                font-size: 1rem;
+            }
+
+            .location-link {
+                margin-bottom: 30px;
+            }
+
+            .location-link a {
+                font-size: 0.9rem;
+            }
+
+            .click-points-container {
+                gap: 20px;
+                margin-bottom: 20px;
+                padding: 30px 0;
+            }
+
+            .click-points-container.two-columns {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                max-width: 100%;
+            }
+
+            .click-point-circle {
+                width: 80px;
+                height: 80px;
+            }
+
+            .click-point-label {
+                font-size: 0.9rem;
+            }
+
+            .intro-title {
+                margin: 10px 0;
+				margin-bottom: 20px;
+            }
+
+            .intro-title .title-line1 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .intro-title .title-line2 {
+                font-size: 0.9rem;
+            }
+
+            .intro-text {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+
+            .intro-text p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="overlay">
+            <div class="header">
+                <h1 class="title">
+                    <a href="index_it.html">FESTAS 2026</a>
+                </h1>
+            </div>
+
+            <div class="content-area">
+                <div class="event-info-box">
+                    <div class="event-date">Martedì 23 giugno</div>
+                    <div class="event-time">ore 18:00</div>
+                </div>
+
+                <div class="location-link">
+                    <a href="https://maps.app.goo.gl/xdRKQcThKDuZyTj59" target="_blank">Fondazione Morra Greco</a>
+                </div>
+
+                <div class="intro-title">
+                    <div class="title-line1">CORALE. Endlessssssssong</div>
+                    <div class="title-line2">Alberto Tadiello</div>
+                </div>
+                <div class="intro-text">
+                    <p>CORALE. Endlessssssssong è una composizione di 8 tracce audio create dall'intreccio di canti umani e di varie specie di cetacei. La successione delle tracce mescola canti, lamenti, canti funebri, espressioni e balbettii umani con unità vocali, versi, frasi, temi e canti di megattere, delfini, beluga, orche e soprattutto balene franche australi, cetacei che migrano verso le coste del Mar Argentino.</p>
+                    <p>|</p>
+					<p>Tutti i brani sono stati concepiti insieme, crescendo come un unico super-organismo, dove il concetto di "timidezza della chioma", un particolare fenomeno di crescita delle piante, è diventato matrice e metafora di elaborazione. La "timidezza della chioma", per cui piante della stessa specie crescono insieme in uno spazio limitato senza toccarsi, è una sorta di paradigma geopolitico naturale, che evoca il rispetto e la protezione di uno spazio per la propria crescita personale, etica di libera coesistenza.</p>
+                </div>
+
+                <div class="click-points-container two-columns">
+                    <div class="click-point">
+                        <div class="click-point-label">Volantino</div>
+                        <a href="FESTAS2026_Martedì23.pdf" target="_blank" style="text-decoration: none;">
+                            <div class="click-point-circle">
+                                <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="click-point">
+                        <div class="click-point-label">Partecipare</div>
+                        <a href="https://forms.gle/uDWh69NYPPe5kc8z6" target="_blank" style="text-decoration: none;">
+                            <div class="click-point-circle">
+                                <img src="Logo_FESTAS.png" alt="FESTAS Logo">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
