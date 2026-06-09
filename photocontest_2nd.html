@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESTAS: On the crosshairs of global warming — 2nd Prize</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: #f5f1e8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overlay {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 40px;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            animation: slideDown 1s ease-out;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            background: #f5f1e8;
+            padding: 20px 0;
+            z-index: 20;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #03385F;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(3, 56, 95, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .title:hover {
+            color: #C05706;
+            text-shadow: 0 0 20px rgba(192, 87, 6, 0.7);
+        }
+
+        .title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .content-area {
+            max-width: 800px;
+            margin: 0 auto;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .event-info-box {
+            padding: 25px 0;
+            margin-bottom: 15px;
+            text-align: center;
+            animation: slideDown 1s ease-out;
+        }
+
+        .event-date {
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #C05706;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .event-time {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: #C05706;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* Prize label */
+        .prize-label {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #03385F;
+            margin-bottom: 24px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Photo block */
+        .photo-block {
+            animation: fadeIn 0.8s ease-out;
+            margin-bottom: 0;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+            box-shadow: 0 8px 40px rgba(3, 56, 95, 0.18);
+        }
+
+        .photo-wrapper:hover img {
+            transform: scale(1.02);
+        }
+
+        .photo-open-new {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(3, 15, 30, 0.65);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.25s ease, background 0.2s ease;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-wrapper:hover .photo-open-new { opacity: 1; }
+        .photo-open-new:hover { background: rgba(192, 87, 6, 0.85); border-color: rgba(255,255,255,0.6); }
+
+        .photo-open-new svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Photo title */
+        .photo-title {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #03385F;
+            padding: 20px 0 18px;
+            border-bottom: 2px solid #03385F;
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Text block */
+        .photo-text {
+            background: rgba(3, 56, 95, 0.05);
+            border-left: 4px solid #03385F;
+            border-right: 4px solid #03385F;
+            padding: 30px;
+            margin-bottom: 60px;
+            border-radius: 4px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .photo-text p {
+            color: #333333;
+            font-size: 1rem;
+            line-height: 1.9;
+            letter-spacing: 0.5px;
+            text-align: justify;
+        }
+
+        /* Author line */
+        .photo-author {
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #C05706;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .back-link a {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #03385F;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-bottom: 1px solid #03385F;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .back-link a:hover {
+            color: #C05706;
+            border-bottom-color: #C05706;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f5f1e8; }
+        ::-webkit-scrollbar-thumb { background: #03385F; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C05706; }
+
+        @media (max-width: 768px) {
+            .overlay { padding: 40px 20px; }
+            .header { margin-bottom: 20px; padding: 15px 0; }
+            .title { font-size: 2rem; }
+            .event-date { font-size: 1.1rem; }
+            .event-time { font-size: 1rem; }
+            .photo-text { padding: 20px; }
+            .photo-text p { font-size: 0.9rem; line-height: 1.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="overlay">
+
+            <!-- Header (identical to main page) -->
+            <div class="header">
+                <h1 class="title">
+                    <a href="index.html">FESTAS 2026</a>
+                </h1>
+            </div>
+
+            <div class="content-area">
+
+                <!-- Event info (identical to main page) -->
+                <div class="event-info-box">
+                    <div class="event-date">International photo contest</div>
+                    <div class="event-time">Climate extremes</div>
+                </div>
+
+                <!-- Prize label -->
+                <div class="prize-label">Second prize</div>
+
+                <!-- Photo title -->
+                <div class="photo-title">On the crosshairs of global warming</div>
+
+                <!-- Photo -->
+                <div class="photo-block">
+                    <div class="photo-wrapper" onclick="window.open('FESTAS2026photocontest_2nd.jpg', '_blank')">
+                        <img src="FESTAS2026photocontest_2nd.jpg" alt="On the crosshairs of global warming">
+                        <button class="photo-open-new" onclick="event.stopPropagation(); window.open('FESTAS2026photocontest_2nd.jpg', '_blank')" title="Open image in new tab">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description text -->
+                <div class="photo-text">
+                    <p>Reveals the fragility of nature in the face of accelerating climate change. Photographed on the coast of Iceland through a small opening in an iceberg, the image symbolizes how rising temperatures and human activity are placing once‑resilient ecosystems under threat. Humanity, in turn, becomes a target of its own actions. The work aims to spark a sense of personal responsibility in every viewer and inspire action toward preserving the future of our planet.</p>
+                    <div class="photo-author">Yevhen Samuchenkor &mdash; Ukraine</div>
+                </div>
+
+                <!-- Back link -->
+                <div class="back-link">
+                    <a href="Photocontest.html">&#x2190; Back to contest main page</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
