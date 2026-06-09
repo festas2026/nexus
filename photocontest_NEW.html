@@ -495,6 +495,39 @@
 
             .lightbox-prev { left: 4px; }
             .lightbox-next { right: 4px; }
+
+            .gallery-caption {
+                font-size: 0.7rem;
+                padding: 10px 8px;
+            }
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(3, 56, 95, 0.88);
+            color: #f5f1e8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            padding: 12px 14px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item:hover .gallery-num {
+            opacity: 0;
         }
     </style>
 </head>
@@ -523,24 +556,28 @@
                             <div class="gallery-overlay">
                                 <span class="gallery-num">01</span>
                             </div>
+                            <div class="gallery-caption">Rising tide of survival<br>(1st prize)</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(1)">
                             <img src="FESTAS2026photocontest_2nd.jpg" alt="Second Prize">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">02</span>
                             </div>
+                            <div class="gallery-caption">On the crosshairs of global warming<br>(2nd prize)</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(2)">
                             <img src="FESTAS2026photocontest_3rd_exaequo_a.jpg" alt="Third Prize ex aequo">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">03</span>
                             </div>
+                            <div class="gallery-caption">After the Po flood<br>(3rd prize ex aequo)</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(3)">
                             <img src="FESTAS2026photocontest_3rd_exaequo_b.jpg" alt="Third Prize ex aequo">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">04</span>
                             </div>
+                            <div class="gallery-caption">Going to collect water<br>(3rd prize ex aequo)</div>
                         </div>
                     </div>
                 </div>
@@ -555,24 +592,28 @@
                             <div class="gallery-overlay">
                                 <span class="gallery-num">05</span>
                             </div>
+                            <div class="gallery-caption">Birch trees</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(5)">
                             <img src="FESTAS2026photocontest_mention_b.png" alt="Mention from the Jury">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">06</span>
                             </div>
+                            <div class="gallery-caption">Murder in the Arctic heat (38°C, June 20, 2020)</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(6)">
                             <img src="FESTAS2026photocontest_mention_c.jpg" alt="Mention from the Jury">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">07</span>
                             </div>
+                            <div class="gallery-caption">Postcards from humankind #7</div>
                         </div>
                         <div class="gallery-item" onclick="openLightbox(7)">
                             <img src="FESTAS2026photocontest_mention_d.jpg" alt="Mention from the Jury">
                             <div class="gallery-overlay">
                                 <span class="gallery-num">08</span>
                             </div>
+                            <div class="gallery-caption">Untitled</div>
                         </div>
                     </div>
                 </div>
